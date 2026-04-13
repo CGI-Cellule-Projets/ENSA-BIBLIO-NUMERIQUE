@@ -26,7 +26,7 @@ export default function Register() {
                             <input
                                 className="name_input"
                                 type="text"
-                                placeholder="Yassine"
+                                placeholder="Prénom"
                                 value={firstName}
                                 onChange={(e) => setFirstName(e.target.value)}
                             />
@@ -36,7 +36,7 @@ export default function Register() {
                             <input
                                 className="name_input"
                                 type="text"
-                                placeholder="Alami"
+                                placeholder="Nom"
                                 value={lastName}
                                 onChange={(e) => setLastName(e.target.value)}
                             />

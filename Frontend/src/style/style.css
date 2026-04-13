@@ -350,23 +350,43 @@
     border: solid black;
 }
 
-#filiere_card{
-    background-color: rgba(149, 76, 21, 0);
+#filiere_card {
+    background-color: #fdf8f5;
     width: 60%;
-    height: 90px;
-    border: solid;
-    border-color: #8b4d30;
-    border-width: 2px;
-    border-radius: 30px;
+    height: 80px;
+    border: 1px solid #e8d5c9;
+    border-left: 4px solid #a35b39;
+    border-radius: 12px;
     font-family: 'Playfair Display', Georgia, serif;
-    transition: background-color .2s;
-    transition: margin-top .2s;
-    font-size: 30px;
+    font-size: 22px;
+    color: #3a1f0e;
     cursor: pointer;
+    transition: background-color 0.2s, padding-left 0.2s, box-shadow 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+    letter-spacing: 0.02em;
 }
 
-#filiere_card:hover{
-    background-color: #bf6a42;
+#filiere_card::after {
+    content: "›";
+    font-size: 24px;
+    color: #a35b39;
+    transition: transform 0.2s;
+}
+
+#filiere_card:hover {
+    background-color: #a35b39;
+    border-color: #a35b39;
+    color: white;
+    padding-left: 36px;
+    box-shadow: 0 4px 16px rgba(163, 91, 57, 0.25);
+}
+
+#filiere_card:hover::after {
+    color: white;
+    transform: translateX(4px);
 }
 
 #filiere_box{
@@ -406,11 +426,147 @@
 .semester_dropdown {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.7s ease;
+    transition: max-height 0.7s ease, padding 0.4s ease-in-out;
     display: flex;
-    gap: 10px;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
 .semester_dropdown.visible {
     max-height: 200px;
+    border-left: 3px solid #e8d5c9;
+    padding: 20px 30px;
+}
+
+.filiere_button {
+    height: 64px;
+    width: 80px;
+    border: 1.5px solid #a35b39;
+    border-radius: 12px;
+    background-color: transparent;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 18px;
+    color: #3a1f0e;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, transform 0.15s;
+    position: relative;
+    overflow: hidden;
+}
+
+.filiere_button::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: #a35b39;
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.2s ease;
+    z-index: 0;
+}
+
+.filiere_button:hover::before {
+    transform: scaleY(1);
+}
+
+.filiere_button:hover {
+    color: white;
+    transform: translateY(-2px);
+}
+
+.filiere_button span {
+    position: relative;
+    z-index: 1;
+}
+
+
+/* ________________ Form ________________ */
+
+#add_filiere_btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1.5px solid #a35b39;
+    background: transparent;
+    color: #a35b39;
+    font-size: 24px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#add_filiere_btn:hover {
+    background-color: #a35b39;
+    color: white;
+}
+
+#modal_overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+#modal_card {
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 40px;
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#modal_title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+#modal_actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+#modal_cancel {
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid #e0d8d2;
+    background: transparent;
+    color: #777;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#modal_cancel:hover {
+    background-color: #f5f0eb;
+}
+
+#modal_submit {
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    background-color: #a35b39;
+    color: white;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#modal_submit:hover {
+    background-color: #8b4d30;
 }

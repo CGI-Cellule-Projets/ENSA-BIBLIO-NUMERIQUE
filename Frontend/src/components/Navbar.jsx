@@ -8,7 +8,7 @@ function Navbar(){
                 <h1 id = "logo" style={{color:"white"}}>LOGO</h1>
 
                 <Links />
-            </div>
+        </div>
     )
 }
 
