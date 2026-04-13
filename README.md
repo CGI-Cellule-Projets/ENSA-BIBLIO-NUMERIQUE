@@ -10,3 +10,5 @@ Créer une plateforme en ligne (site web ou application) permettant aux étudian
 
 ## ⏰ Deadline
 **Fin de l’année universitaire**
+## UI/UX Design of website "ENSA Hub" :
+Tool : Figma / canva (Logo) /link :[https://www.figma.com/design/kyOENoXRnacAA4i24bPAnJ/Design-siteweb-ENSA-biblio?node-id=0-1&t=FrhPyUcgKxuUHjo1-1]
