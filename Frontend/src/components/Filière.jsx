@@ -1,18 +1,24 @@
 import { useEffect, useState } from "react"
-import Module from "./Module";
+import Admin from "./Admin";
 import { useNavigate } from "react-router-dom";
+import { MdDelete } from "react-icons/md";
 const VITE_API_URL = import.meta.env.VITE_API_URL; 
 
-export default function Filiere({ name, number, filiere_id }) {
+export default function Filiere({ name, number, filiere_id, onDelete }) {
     const [visible, setVisible] = useState(false)
-    const [modules, setModules] = useState([])
-    const [selectedSemester, setSelectedSemester] = useState(null)
     const navigate = useNavigate()
 
     
 
     function semester_click(semester_num) {
         navigate(`/filiere/${filiere_id}/semester/${semester_num}/modules`)
+    }
+
+    async function delete_filiere(){
+        const response = await fetch(`${VITE_API_URL}/delete_filiere/${filiere_id}`,{
+            method: 'DELETE',
+        })
+        onDelete();
     }
 
     let list = []
@@ -29,6 +35,7 @@ export default function Filiere({ name, number, filiere_id }) {
                         <span>S{number}</span>
                     </button>
                 ))}
+            <Admin><button className="delete-btn" onClick={delete_filiere}><MdDelete /></button></Admin>
             </div>
         </>
     )

@@ -1,7 +1,6 @@
 import { FaFacebook } from "react-icons/fa";
 import { AiFillInstagram } from "react-icons/ai";
 import { FaLinkedinIn } from "react-icons/fa";
-import { Link } from "react-router-dom";
 import Links from "./links";
 import '../style/style.css'
 
@@ -18,7 +17,7 @@ export default function Footer() {
                     <a href="https://ma.linkedin.com/school/ensa-school/" target="_blank"><FaLinkedinIn size={30} color="#a35b39" /></a>
                 </div>
                 <Links />
-                <p>Copyright © 2026 Omar</p>
+                <p>Copyright © 2026 P-B-N-E</p>
             </div>
         </>
     )

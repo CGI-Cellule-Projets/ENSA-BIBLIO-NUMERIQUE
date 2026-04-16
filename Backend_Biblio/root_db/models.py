@@ -13,7 +13,6 @@ class User(Base):
     username = Column(String(50), unique = True, nullable = False)
     hashed_password = Column(String(100), nullable = False)
     admin = Column(Boolean, default=False, nullable=False)
-    description = Column(Text)
 
 class Filiere(Base):
     __tablename__ = "Filiere"
@@ -34,9 +33,9 @@ class Module(Base):
     semester_id = Column(Integer, ForeignKey("Semester.id"))
 
 class Genre(str, enum.Enum):
-    cours = "cours"
-    td = "td"
-    exam = "exam"
+    cours = "Cours"
+    td = "Td"
+    exam = "Exam"
 
 class PDF(Base):
     __tablename__ = "PDF"
@@ -45,6 +44,7 @@ class PDF(Base):
     path = Column(String(60), nullable=False)
     genre = Column(Enum(Genre), nullable=False)
     module_id = Column(Integer, ForeignKey("Module.id"))
+    thumbnail = Column(Text, nullable=True)
 
 class CreateFiliere(BaseModel):
     name: str
@@ -59,6 +59,7 @@ class CreatePDF(BaseModel):
     path: str
     genre: Genre
     module_id: int
+    thumbnail: str | None = None
 
 class CreateSemester(BaseModel):
     number: int
@@ -71,13 +72,11 @@ class CreateUser(BaseModel):
     username: str = Field(min_length=3, max_length=50)
     hashed_password: str = Field(min_length=5, max_length=100)
     admin: bool 
-    description: str = Field(max_length=200)
 
 class UpdateUser(BaseModel):
     firstname: Optional[str] = None
     lastname: Optional[str] = None
     username: Optional[str] = None
-    description: Optional[str] = None
 
 
 

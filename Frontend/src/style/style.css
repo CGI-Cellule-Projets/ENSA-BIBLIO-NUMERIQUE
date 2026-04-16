@@ -18,6 +18,7 @@
     cursor: pointer;
     color: rgb(208, 144, 110);
     font-size: large;
+    margin: auto 0;
 }
 
 .headers:hover{
@@ -211,7 +212,7 @@
 
 #login_page {
     min-height: 100vh;
-    background-color: #f5f0eb;
+    background-color: #f5f0eb00;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -341,6 +342,11 @@
     border-color: #a35b39;
 }
 
+#login_register2{
+    text-align: center;
+    color: rgb(193, 32, 32);
+}
+
 /* ________________ filières ________________ */
 
 #filiere_card{
@@ -398,6 +404,21 @@
     margin-top: 200px;
     margin-bottom: 200px;
 }
+
+#filiere_box::before {
+    content: "BIBLIOTHÈQUE";
+    position: fixed;
+    z-index: -1;
+    top: 50%;
+    transform: rotate(-40deg);
+    font-size: 80px;
+    color: rgba(163, 91, 57, 0.06);
+    font-family: 'Playfair Display', serif;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+
 
 #filiere_box > h1 {
     font-family: 'Playfair Display', Georgia, serif;
@@ -494,6 +515,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: auto 0;
 }
 
 #add_filiere_btn:hover {
@@ -569,4 +591,185 @@
 
 #modal_submit:hover {
     background-color: #8b4d30;
+}
+
+#file_input {
+    display: none;
+}
+
+#file_upload_label {
+    cursor: pointer;
+    width: 100%;
+}
+
+#file_upload_btn {
+    display: block;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1.5px dashed #a35b39;
+    background-color: #fdf8f5;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 14px;
+    color: #a35b39;
+    text-align: center;
+    transition: background-color 0.2s;
+}
+
+#file_upload_label:hover #file_upload_btn {
+    background-color: #f5ede8;
+}
+
+/* ________________ PDF ________________ */
+
+#pdf_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 40px 60px;
+    margin-top: 100px;
+}
+
+#pdf_page {
+    margin-top: 130px;
+    min-height: calc(100vh - 90px - 300px);
+}
+
+.pdf_card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 24px 16px;
+    background-color: #fdf8f5;
+    border: 1px solid #e8d5c9;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: background-color 0.2s, transform 0.15s, box-shadow 0.2s;
+    cursor: pointer;
+}
+
+.pdf_card:hover {
+    background-color: #f5ede8;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(163, 91, 57, 0.15);
+}
+
+
+.pdf_icon {
+    width: 64px;
+    height: 80px;
+    background-color: #a35b39;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.pdf_icon::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    background-color: #fdf8f5;
+    border-bottom-left-radius: 6px;
+}
+
+.pdf_icon::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    background-color: #8b4d30;
+    border-radius: 0 8px 0 6px;
+}
+
+.pdf_icon_text {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: white;
+    letter-spacing: 0.05em;
+    margin-top: 8px;
+}
+
+.pdf_info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-align: center;
+}
+
+.pdf_name {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 14px;
+    color: #3a1f0e;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 160px;
+}
+
+.pdf_open {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 11px;
+    color: #a35b39;
+    margin: 0;
+}
+
+/* ___________________  ____________________ */
+
+
+
+.delete-btn {
+    height: 38px;
+    padding: 0 16px;
+    border: 1.5px solid #c0392b;
+    border-radius: 8px;
+    background-color: transparent;
+    color: #c0392b;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    letter-spacing: 0.02em;
+    margin: auto 0;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
+    color: white;
+}
+
+#user_grid{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 400px;
+}
+
+.user-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(208, 144, 110);
+    transition: color 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.user-btn:hover {
+    color: white;
 }

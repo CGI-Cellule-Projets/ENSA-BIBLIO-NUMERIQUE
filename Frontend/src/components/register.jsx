@@ -1,15 +1,42 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+const VITE_API_URL = import.meta.env.VITE_API_URL
 
 export default function Register() {
+    const navigate = useNavigate()
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [status, setStatus] = useState("");
 
-    const handleRegister = (e) => {
+    const handleRegister = async (e) => {
         e.preventDefault();
-    };
+
+            const response = await fetch(`${VITE_API_URL}/register`,{
+                method: 'POST',
+                headers: {'Content-type': 'application/json'},
+                body: JSON.stringify({
+                    firstname: firstName,
+                    lastname: lastName,
+                    username: username,
+                    hashed_password: password,
+                    admin: false,
+                })
+            })
+
+            console.log(response);
+            setFirstName("");
+            setLastName("");
+            setUsername("");
+            setPassword("");
+
+            if(response.status == 201) {navigate('/login');}
+
+            else {setStatus("Error in register, try again")}
+
+        }
+
 
     return (
         <div id="login_page">
@@ -64,7 +91,7 @@ export default function Register() {
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
-
+                    <p id="login_register2">{status}</p>
                     <button id="login_btn" onClick={handleRegister}>
                         S'inscrire
                     </button>

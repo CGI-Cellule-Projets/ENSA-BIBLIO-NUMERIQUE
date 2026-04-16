@@ -8,6 +8,8 @@ import Register from './components/register';
 import Filiere_page from './components/Filieres_page';
 import Modules from './components/Modules';
 import Form from './components/Form';
+import User from './components/User';
+import PDFs_cours from './components/PDFs';
 
 function App() {
 
@@ -57,6 +59,14 @@ function App() {
     </>
   )
 
+    const PDF_form_page = () => (
+    <>
+      <Navbar />
+      <PDFs_cours />
+      <Footer />
+    </>
+  )
+
 
   return (
     <Routes>
@@ -66,6 +76,9 @@ function App() {
       <Route path="/filiere/:filiere_id/semester/:semester_num/modules" element={<Modules_page />} />
       <Route path='/filiere' element={<Filiere_pages />} />
       <Route path='/form' element={ <Form_page /> } />
+      <Route path='/add_pdf' element={ <PDF_form_page /> } />
+      <Route path="/filiere/:filiere_id/semester/:genre/modules/:module_id" element={<PDF_form_page />} />
+      <Route path='/test' element={ <User /> } />
     </Routes>
   )
 }
