@@ -19,10 +19,14 @@
     color: rgb(208, 144, 110);
     font-size: large;
     margin: auto 0;
+    padding: 5px;
+    border-radius: 5px;
+    transition: background .15s, color .15s;
 }
 
 .headers:hover{
-    color: white;
+    background: rgba(235, 204, 182, 0.525);
+    color: rgb(149, 82, 46);
 }
 
 #container {
@@ -162,12 +166,12 @@
     text-decoration: none;
     color: inherit;
     border-radius: 30px;
-    background-color: #c9b86a;
+    background-color: #eceae0;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 55px;
-    width: 55px;
+    height: 45px;
+    width: 45px;
 }
 
 .headers-foot:hover{
@@ -632,6 +636,7 @@
 #pdf_page {
     margin-top: 130px;
     min-height: calc(100vh - 90px - 300px);
+    margin-bottom: 100px;
 }
 
 .pdf_card {
@@ -724,7 +729,36 @@
     margin: 0;
 }
 
-/* ___________________  ____________________ */
+
+.pdf_card_wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.pdf_delete_btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: none;
+    background-color: rgba(193, 57, 43, 0.85);
+    color: white;
+    font-size: 11px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.pdf_card_wrapper:hover .pdf_delete_btn {
+    opacity: 1;
+}
+
+/* ___________________ User Button ____________________ */
 
 
 
@@ -749,27 +783,262 @@
     color: white;
 }
 
-#user_grid{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 400px;
+.user-menu {
+    position: relative;
+    display: inline-block;
+}
+
+.user-menu:hover .user-dropdown {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+}
+
+.user-menu::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 100%;
+    height: 8px; 
 }
 
 .user-btn {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 4px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
     color: rgb(208, 144, 110);
-    transition: color 0.2s;
-    display: flex;
-    flex-direction: column;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 8px;
+    transition: background 0.15s;
 }
 
 .user-btn:hover {
+    background: rgba(235, 204, 182, 0.525);
+    color: rgb(149, 82, 46);
+}
+
+.user-dropdown {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 8px);
+    background: #fdfaf7;
+    border: 0.5px solid #e0d8d0;
+    border-radius: 12px;
+    min-width: 200px;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-6px);
+    transition: opacity 0.15s, transform 0.15s;
+    z-index: 100;
+}
+
+.dropdown-header {
+    padding: 12px 16px;
+    border-bottom: 0.5px solid #e0d8d0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #3d1f0a;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px 16px;
+    background: none;
+    border: none;
+    font-size: 14px;
+    color: #5c3317;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.1s;
+}
+
+.dropdown-item:hover {
+    background: #f5ede4;
+}
+
+.dropdown-item.danger {
+    color: #993c1d;
+}
+
+.dropdown-item.danger:hover {
+    background: #faece7;
+}
+
+.dropdown-divider {
+    border: none;
+    border-top: 0.5px solid #e0d8d0;
+    margin: 4px 0;
+}
+
+/* ___________________ Edit _________________ */
+
+
+#account_page {
+    display: flex;
+    margin-top: 120px;
+    min-height: calc(100vh - 90px - 300px);
+    padding: 40px 60px;
+    gap: 40px;
+}
+
+#account_sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 180px;
+    flex-shrink: 0;
+}
+
+.sidebar_btn {
+    background: transparent;
+    border: none;
+    text-align: left;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 15px;
+    color: #777;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.sidebar_btn:hover {
+    background-color: #f5ede8;
+    color: #3a1f0e;
+}
+
+.sidebar_btn.active {
+    background-color: #fdf8f5;
+    color: #a35b39;
+    border-left: 3px solid #a35b39;
+    font-weight: 500;
+}
+
+#account_content {
+    flex: 1;
+}
+
+.account_section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 520px;
+}
+
+.section_title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #a35b39;
+    margin: 0 0 8px;
+}
+
+#avatar_row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+#avatar_row > h3 {
+    margin-left: 150px;
+    color: rgb(66, 99, 66);
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1.5px solid #e8d5c9;
+    background: transparent;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.secondary_btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1.5px solid #e8d5c9;
+    background: transparent;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 13px;
+    color: #777;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.secondary_btn:hover {
+    background-color: #f5ede8;
+}
+
+#save_btn {
+    padding: 12px;
+    background-color: #a35b39;
     color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    align-self: flex-start;
+    padding: 12px 28px;
+}
+
+#save_btn:hover {
+    background-color: #8b4d30;
+}
+
+#users_list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.user_row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 18px;
+    background-color: #fdf8f5;
+    border: 1px solid #e8d5c9;
+    border-radius: 12px;
+    width: 700px;
+}
+
+.user_info {
+    flex: 1;
+}
+
+.user_name {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 15px;
+    color: #3a1f0e;
+    margin: 0;
+}
+
+.user_email {
+    font-size: 12px;
+    color: #999;
+    font-family: 'Inter', system-ui, sans-serif;
+    margin: 0;
+}
+
+.role_select {
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid #e8d5c9;
+    background-color: white;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 13px;
+    color: #3a1f0e;
+    cursor: pointer;
 }

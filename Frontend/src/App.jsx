@@ -10,6 +10,8 @@ import Modules from './components/Modules';
 import Form from './components/Form';
 import User from './components/User';
 import PDFs_cours from './components/PDFs';
+import Ouvrages from './components/Ouvrages';
+import AccountManagement from './components/Edit';
 
 function App() {
 
@@ -65,7 +67,32 @@ function App() {
       <PDFs_cours />
       <Footer />
     </>
-  )
+    )
+
+    const Ouvrage_page = () => (
+      <>
+        <Navbar />
+        <Ouvrages />
+        <Footer />
+      </>
+    )
+
+    const Account_page = () => (
+      <>
+        <Navbar />
+        <AccountManagement firstpage={"profile"} /> 
+        <Footer />
+      </>
+    )
+
+    const Users_page = () => (
+      <>
+        <Navbar />
+        <AccountManagement firstpage={"users"} /> 
+        <Footer />
+      </>
+    )
+  
 
 
   return (
@@ -78,7 +105,9 @@ function App() {
       <Route path='/form' element={ <Form_page /> } />
       <Route path='/add_pdf' element={ <PDF_form_page /> } />
       <Route path="/filiere/:filiere_id/semester/:genre/modules/:module_id" element={<PDF_form_page />} />
-      <Route path='/test' element={ <User /> } />
+      <Route path="/ouvrages" element={ <Ouvrage_page /> } />
+      <Route path='/account_management' element={ <Account_page /> } />
+      <Route path='/users_management' element={ <Users_page /> } />
     </Routes>
   )
 }

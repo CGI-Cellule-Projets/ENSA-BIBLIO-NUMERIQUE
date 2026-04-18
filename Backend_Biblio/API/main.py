@@ -83,7 +83,7 @@ async def verify_user(
     else:
         return {
             "access_token": create_access_token(
-                timedelta(seconds=30),
+                timedelta(minutes=10),
                 {
                     "sub": user_db.username,
                     "name": user_db.firstname,
@@ -121,17 +121,14 @@ async def update_user(
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
     except exceptions.ExpiredSignatureError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
-    logged_username = payload["sub"]
+    logged_id = payload["id"]
     db_user = (
-        db.query(models.User).filter(models.User.username == logged_username).first()
+        db.query(models.User).filter(models.User.id == logged_id).first()
     )
     if db_user is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
-    elif (
-        db.query(models.User).filter(models.User.username == new.username).first()
-        is not None
-    ):
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
+    elif db_user.email == new.email and db_user.firstname == new.firstname and db_user.lastname == new.lastname:
+        return { "message" : "User Unchanged" }
     updated_user = new.model_dump(exclude_unset=True)
 
     updated_user = {key: value 
@@ -144,6 +141,7 @@ async def update_user(
 
     db.commit()
     db.refresh(db_user)
+    return { "message" : "User Updated" }
 
 
 @app.post("/post_filiere")
@@ -228,14 +226,34 @@ async def get_filiere_name(db: DBSession, filiere_id: int):
     return db.query(models.Filiere).filter(models.Filiere.id == filiere_id).first().name
 
 
+import os, shutil
+
 @app.delete("/delete_filiere/{filiere_id}")
-async def delete_filiere(db: DBSession, filiere_id: int):
-    filiere_to_delete = db.query(models.Filiere).filter(models.Filiere.id == filiere_id).first()
-    if filiere_to_delete is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Filiere Not found")
-    else:
-        db.delete(filiere_to_delete)
-        db.commit()
+async def delete_filiere(filiere_id: int, db: DBSession):
+    filiere = db.query(models.Filiere).filter(models.Filiere.id == filiere_id).first()
+    if filiere is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Filiere not found")
+    
+    semestres = db.query(models.Semester).filter(models.Semester.filiere_id == filiere_id).all()
+    for semestre in semestres:
+        modules = db.query(models.Module).filter(models.Module.semester_id == semestre.id).all()
+        for module in modules:
+            pdfs = db.query(models.PDF).filter(models.PDF.module_id == module.id).all()
+            for pdf in pdfs:
+                if os.path.exists(pdf.path):
+                    os.remove(pdf.path)
+                db.delete(pdf)
+            db.flush()
+            folder = f"pdfs/{module.id}"
+            if os.path.exists(folder):
+                shutil.rmtree(folder)
+            db.delete(module)
+        db.flush()
+        db.delete(semestre)
+    db.flush()
+    db.delete(filiere)
+    db.commit()
+    return {"message": "Filiere and all related data deleted"}
 
 @app.get("/admin")
 async def is_admin(db: DBSession, token = Depends(oauth2_scheme)):
@@ -246,5 +264,72 @@ async def is_admin(db: DBSession, token = Depends(oauth2_scheme)):
     user_db = db.query(models.User).filter(models.User.id == payload["id"]).first()
     return {"is_admin" : user_db.admin}
 
+@app.get("/ouvrages")
+async def ouvrage(db: DBSession):
+    ouvrages = db.query(models.PDF).filter(models.PDF.genre == "Ouvrage").all()
+    if ouvrages is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+    return ouvrages
+
+@app.post("/add_ouvrage")
+async def post_ouvrage(db: DBSession, new_pdf: models.CreateOuvrage):
+    data = new_pdf.model_dump()
+
+    if not data.get("thumbnail") and data.get("path"):
+        data["thumbnail"] = generate_pdf_thumbnail(data["path"])
+
+    db_ouvrage = models.PDF(**data)
+    db.add(db_ouvrage)
+    db.commit()
 
 
+@app.get("/get_current")
+async def get_current(db: DBSession, token = Depends(oauth2_scheme)):
+    try: 
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+    except exceptions.ExpiredSignatureError:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+    return db.query(models.User).filter(models.User.id == payload["id"]).first()
+
+
+@app.get("/get_users")
+async def get_users(db: DBSession):
+    return db.query(models.User).all()
+
+@app.delete("/delete_user/{user_id}")
+async def delete_user(db: DBSession, user_id: int):
+    user_to_delete = db.query(models.User).filter(models.User.id == user_id).first()
+    db.delete(user_to_delete)
+    db.commit()
+    return { "message" : "Deleted" }
+
+
+@app.put("/update_role/{user_id}")
+async def update_role(user_id: int, role: models.UpdateRole, db: DBSession):
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if user is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+    user.admin = role.admin
+    db.commit()
+    db.refresh(user)
+    return {"message": "Role updated", "admin": user.admin}
+
+
+@app.delete("/delete_module/{module_id}")
+async def delete_module(db: DBSession, module_id: int, token = Depends(oauth2_scheme)):
+    try:
+        jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+    except exceptions.ExpiredSignatureError:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+    db_module = db.query(models.Module).filter(models.Module.id == module_id).first()
+    if db_module is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Module introuvable")
+    pdfs = db.query(models.PDF).filter(models.PDF.module_id == module_id).all()
+    for pdf in pdfs:
+        if os.path.exists(pdf.path):
+            os.remove(pdf.path)
+    db.delete(db_module)
+    db.commit()
+
+
+    

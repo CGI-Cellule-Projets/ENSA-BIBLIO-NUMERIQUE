@@ -8,6 +8,7 @@ export default function Register() {
     const [lastName, setLastName] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
     const [status, setStatus] = useState("");
 
     const handleRegister = async (e) => {
@@ -20,6 +21,7 @@ export default function Register() {
                     firstname: firstName,
                     lastname: lastName,
                     username: username,
+                    email: email,
                     hashed_password: password,
                     admin: false,
                 })
@@ -68,6 +70,17 @@ export default function Register() {
                                 onChange={(e) => setLastName(e.target.value)}
                             />
                         </div>
+                    </div>
+
+                    <div className="input_group">
+                        <label className="input_label">Email</label>
+                        <input
+                            className="login_input"
+                            type="text"
+                            placeholder="Email@example.dom"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
                     </div>
 
                     <div className="input_group">

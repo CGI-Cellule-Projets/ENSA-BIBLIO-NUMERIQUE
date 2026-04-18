@@ -13,7 +13,6 @@ async function handleSubmit() {
     formData.append("module_id", module_id);
     formData.append("file", file);
 
-    // step 1 — upload the file
     const response = await fetch(`${VITE_API_URL}/upload`, {
         method: "POST",
         body: formData

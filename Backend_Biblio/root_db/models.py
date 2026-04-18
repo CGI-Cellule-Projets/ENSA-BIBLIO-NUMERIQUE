@@ -1,8 +1,9 @@
-from sqlalchemy import Column, String, Integer, Boolean, Text, ForeignKey, Enum
+from sqlalchemy import Column, String, Integer, Boolean, ForeignKey, Enum
 from root_db.database import Base, engine
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, EmailStr
 from typing import Optional
 import enum
+from sqlalchemy.dialects.mysql import MEDIUMTEXT
 
 
 class User(Base):
@@ -11,6 +12,7 @@ class User(Base):
     firstname = Column(String(20), nullable=False)
     lastname = Column(String(30), nullable=False)
     username = Column(String(50), unique = True, nullable = False)
+    email = Column(String(50), unique=True, nullable=False)
     hashed_password = Column(String(100), nullable = False)
     admin = Column(Boolean, default=False, nullable=False)
 
@@ -36,6 +38,7 @@ class Genre(str, enum.Enum):
     cours = "Cours"
     td = "Td"
     exam = "Exam"
+    ouvrage = "Ouvrage"
 
 class PDF(Base):
     __tablename__ = "PDF"
@@ -44,7 +47,15 @@ class PDF(Base):
     path = Column(String(60), nullable=False)
     genre = Column(Enum(Genre), nullable=False)
     module_id = Column(Integer, ForeignKey("Module.id"))
-    thumbnail = Column(Text, nullable=True)
+    thumbnail = Column(MEDIUMTEXT, nullable=True)
+
+class Ouvrage(Base):
+    __tablename__ = "Ouvrage"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(50), nullable=False)
+    path = Column(String(60), nullable=False)
+    genre = Column(Enum(Genre), nullable=False)
+    thumbnail = Column(MEDIUMTEXT, nullable=True)
 
 class CreateFiliere(BaseModel):
     name: str
@@ -61,6 +72,12 @@ class CreatePDF(BaseModel):
     module_id: int
     thumbnail: str | None = None
 
+class CreateOuvrage(BaseModel):
+    name: str
+    path: str
+    genre: Genre
+    thumbnail: str | None = None
+
 class CreateSemester(BaseModel):
     number: int
     filiere_id: int
@@ -71,12 +88,16 @@ class CreateUser(BaseModel):
     lastname: str = Field(min_length=1, max_length=30)
     username: str = Field(min_length=3, max_length=50)
     hashed_password: str = Field(min_length=5, max_length=100)
+    email: EmailStr
     admin: bool 
 
 class UpdateUser(BaseModel):
     firstname: Optional[str] = None
     lastname: Optional[str] = None
-    username: Optional[str] = None
+    email: Optional[EmailStr] = None
+
+class UpdateRole(BaseModel):
+    admin: bool
 
 
 

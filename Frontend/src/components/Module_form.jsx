@@ -29,7 +29,7 @@ export default function AddModuleForm({ semester_id, onAdd }) {
 
                         <div className="input_group">
                             <label className="input_label">Nom du module</label>
-                            <input className="login_input" type="text" placeholder="Algorithmique"
+                            <input className="login_input" type="text" placeholder="Module"
                                 value={name} onChange={(e) => setName(e.target.value)} />
                         </div>
 
