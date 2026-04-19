@@ -25,7 +25,7 @@ class Filiere(Base):
 class Semester(Base):
     __tablename__ = "Semester"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    number = Column(Integer, nullable=False, unique=True)
+    number = Column(Integer, nullable=False, unique=False)
     filiere_id = Column(Integer, ForeignKey("Filiere.id"))
 
 class Module(Base):

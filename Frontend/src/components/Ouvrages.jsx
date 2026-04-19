@@ -30,7 +30,7 @@ export default function Ouvrages(){
                 }} >{"Ouvrages"}</h1>
                 <div id="pdf_grid">
                     {ouvrages.map((
-                        (element) => <PDF key={element.id} name={element.name} path={element.path} thumbnail={element.thumbnail} /> )
+                        (element) => <PDF key={element.id} pdf_id={element.id} name={element.name} path={element.path} thumbnail={element.thumbnail} onDelete={ouvrage} /> )
                     )}
                     
                 </div>

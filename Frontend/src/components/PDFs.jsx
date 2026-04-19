@@ -27,7 +27,7 @@ export default function PDFs_cours(){
                 }} >{genre}</h1>
                 <div id="pdf_grid">
                     {pdfs.map((
-                        (element) => <PDF key={element.id} pdf_if={element.id} name={element.name} path={element.path} thumbnail={element.thumbnail} /> )
+                        (element, index) => <PDF key={element.id} pdf_id={element.id} name={element.name} path={element.path} thumbnail={element.thumbnail} style={{ animationDelay: `${index * 0.1}s` }} /> )
                     )}
                 </div>
             </div>

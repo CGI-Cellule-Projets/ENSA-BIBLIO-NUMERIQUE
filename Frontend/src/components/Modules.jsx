@@ -32,7 +32,7 @@ export default function Modules(){
             <div id="filiere_box">
                 <h1> {filiere} </h1> <h1>S{semester_num}</h1>
                 {modules.map((element) => <Module key={element.id} name={element.name} module_id={element.id} filiere_id={filiere_id} onDelete={fetchModules} /> )}
-                <Admin><AddModuleForm semester_id={semester_num}  onAdd={fetchModules} /></Admin>
+                <Admin><AddModuleForm semester_id={semester_num} filiere_id={filiere_id}  onAdd={fetchModules} /></Admin>
             </div>
         </>
     )

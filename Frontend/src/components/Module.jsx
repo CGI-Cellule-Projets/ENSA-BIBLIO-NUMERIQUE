@@ -38,7 +38,7 @@ export default function Module({name, module_id, filiere_id, onDelete}){
                         <span>{number}</span>
                     </button>
                 ))}
-                <Admin><AddPDFForm  module_id={module_id}  /></Admin>
+                <Admin><AddPDFForm  module_id={module_id} /></Admin>
                 <Admin><button className="delete-btn" onClick={delete_module}><MdDelete /></button></Admin>
             </div>
         </>

@@ -3,15 +3,13 @@
 import { useState } from "react";
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 
-export default function AddModuleForm({ semester_id, onAdd }) {
+export default function AddModuleForm({ semester_id, filiere_id, onAdd }) {
     const [open, setOpen] = useState(false);
     const [name, setName] = useState("");
 
     async function handleSubmit() {
-        await fetch(`${VITE_API_URL}/add_module`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, semester_id })
+        await fetch(`${VITE_API_URL}/add_module/${filiere_id}/${semester_id}/${name}`, {
+            method: "POST"
         });
         setOpen(false);
         setName("");

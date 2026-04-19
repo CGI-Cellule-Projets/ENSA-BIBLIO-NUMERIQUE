@@ -8,7 +8,7 @@ export default function AddFiliereForm({ onAdd }) {
     const VITE_API_URL = import.meta.env.VITE_API_URL;
 
     async function handleSubmit() {
-        await fetch(`${VITE_API_URL}/add_filiere`, {
+        await fetch(`${VITE_API_URL}/post_filiere`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name, duration: parseInt(duration) })

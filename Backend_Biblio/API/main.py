@@ -178,14 +178,20 @@ async def get_filiere_(db: DBSession, filiere_id: int):
 @app.post("/add_filiere")
 async def add_filiere(db: DBSession, new_filiere: models.CreateFiliere):
     db_filiere = models.Filiere(**new_filiere.model_dump())
+    
     db.add(db_filiere)
     db.commit()
 
-@app.post("/add_module")
-async def add_filiere(db: DBSession, new_filiere: models.CreateModule):
-    db_module = models.Module(**new_filiere.model_dump())
-    db.add(db_module)
+@app.post("/add_module/{filiere_id}/{semester_id}/{name}")
+async def add_module(db: DBSession, filiere_id: int, semester_id: int, name: str):
+    semester = db.query(models.Semester).filter(models.Semester.number == semester_id, models.Semester.filiere_id == filiere_id).first()
+    module_to_add = models.Module()
+    module_to_add.name = name
+    module_to_add.semester_id = semester.id
+
+    db.add(module_to_add)
     db.commit()
+
 
 @app.post("/upload")
 async def upload_file(file: UploadFile = File(...), module_id: int = Form(...)):
@@ -332,4 +338,14 @@ async def delete_module(db: DBSession, module_id: int, token = Depends(oauth2_sc
     db.commit()
 
 
-    
+@app.delete("/delete_pdf/{pdf_id}")
+async def delete_pdf(db: DBSession, pdf_id: int, token = Depends(oauth2_scheme)):
+    try:
+        jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+    except exceptions.ExpiredSignatureError:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+    pdf_to_delete = db.query(models.PDF).filter(models.PDF.id == pdf_id).first()
+    db.delete(pdf_to_delete)
+    db.commit()
+    return { "message" : "PDF Deleted" }
+

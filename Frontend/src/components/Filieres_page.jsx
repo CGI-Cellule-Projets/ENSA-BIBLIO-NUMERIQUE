@@ -22,7 +22,7 @@ export default function Filiere_page(){
             <div id="filiere_box">
                 <h1>Choisissez votre filière</h1>
                 <br />
-                {filieres.map((element)=>( <Filiere key={element.id} name={element.name} number={element.duration} filiere_id={element.id} onDelete={get_filiere} /> ))}
+                {filieres.map((element, index)=>( <Filiere key={element.id} name={element.name} number={element.duration} filiere_id={element.id} onDelete={get_filiere} style={{ animationDelay: `${index * 0.1}s` }} /> ))}
                 <Admin><AddFiliereForm onAdd={get_filiere} /></Admin>
             </div>
         </>

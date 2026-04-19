@@ -1,6 +1,8 @@
 import ensa from '../assets/ENSA_HERO.jpg';
+import { useNavigate } from 'react-router-dom';
 
 export default function Hero() {
+
     return (
         <>
             <div id='image_container'>
@@ -19,9 +21,9 @@ export default function Hero() {
             </div>
 
             <div id="cards_grid">
-                <FeatureCard icon="✦" title="Cours" desc="Visiter les cours de tous vos modules de toutes les filères." />
-                <FeatureCard icon="⚡" title="TDs" desc="Visitez vos travaux dirigés pour chaque module." />
-                <FeatureCard icon="🛡" title="Examens" desc="Tester vos connaissances avec des examens des années précédentes." />
+                <FeatureCard icon="✦" title="Cours" desc="Visiter les cours de tous vos modules de toutes les filères." path={'filiere'} />
+                <FeatureCard icon="⚡" title="TDs" desc="Visitez vos travaux dirigés pour chaque module." path={'filiere'} />
+                <FeatureCard icon="🛡" title="Examens" desc="Tester vos connaissances avec des examens des années précédentes." path={'filiere'} />
             </div>
 
             <div style={{display:"flex", justifyContent:"center", marginTop:"100px"}}>
@@ -29,21 +31,24 @@ export default function Hero() {
             </div>
 
             <div id="cards_grid">
-                <FeatureCard icon="✦" title="Etudiant" desc="Inscription en tant qu'étudiant." />
-                <FeatureCard icon="⚡" title="Admin" desc="Inscription en tant qu'enseignant, pour un acces admin." />
-                <FeatureCard icon="🛡" title="Visiteur" desc="Accès ouvert au recourses." />
+                <FeatureCard icon="✦" title="Etudiant" desc="Inscription en tant qu'étudiant." path={'/login'} />
+                <FeatureCard icon="⚡" title="Admin" desc="Inscription en tant qu'enseignant, pour un acces admin." path={'/login'} />
+                <FeatureCard icon="🛡" title="Visiteur" desc="Accès ouvert au recourses." path={'/filiere'} />
             </div>
 
         </>
     )
 }
 
-function FeatureCard({ icon, title, desc }) {
+function FeatureCard({ icon, title, desc, path }) {
+    const navigate = useNavigate()
+
+
     return (
-        <div className="feature_card">
+        <button className="feature_card" onClick={()=>{ navigate(path) }} >
             <div className="card_icon">{icon}</div>
             <h3>{title}</h3>
             <p>{desc}</p>
-        </div>
+        </button>
     )
 }
